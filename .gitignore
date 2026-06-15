@@ -1,0 +1,6 @@
+# Binary staging directory — never commit binaries to git
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
