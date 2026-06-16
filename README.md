@@ -47,7 +47,7 @@ chmod +x /usr/local/bin/aba-sensor
 
 ### Windows (x86_64)
 
-Download `aba-sensor-v{VERSION}-x86_64-pc-windows-msvc.exe` from the [Releases page](https://github.com/ExabeamLabs/aba-sensor-dist/releases) and add it to your `PATH`.
+Download `aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe` from the [Releases page](https://github.com/ExabeamLabs/aba-sensor-dist/releases) and add it to your `PATH`.
 
 ---
 

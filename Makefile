@@ -8,7 +8,7 @@ BIN_DIR := bin
 
 MACOS_INTEL := $(BIN_DIR)/aba-sensor-$(TAG)-x86_64-apple-darwin
 MACOS_ARM   := $(BIN_DIR)/aba-sensor-$(TAG)-aarch64-apple-darwin
-WINDOWS     := $(BIN_DIR)/aba-sensor-$(TAG)-x86_64-pc-windows-msvc.exe
+WINDOWS     := $(BIN_DIR)/aba-sensor-$(TAG)-x86_64-pc-windows-gnu.exe
 
 BINS := $(MACOS_INTEL) $(MACOS_ARM) $(WINDOWS)
 

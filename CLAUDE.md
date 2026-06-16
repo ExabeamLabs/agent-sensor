@@ -36,7 +36,7 @@ Binaries must be placed in `bin/` with these exact names before releasing:
 ```
 bin/aba-sensor-v{VERSION}-x86_64-apple-darwin         # macOS Intel
 bin/aba-sensor-v{VERSION}-aarch64-apple-darwin        # macOS Apple Silicon
-bin/aba-sensor-v{VERSION}-x86_64-pc-windows-msvc.exe  # Windows
+bin/aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe  # Windows
 ```
 
 `bin/` is gitignored — binaries live only as GitHub Release assets.

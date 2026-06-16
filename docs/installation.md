@@ -17,7 +17,7 @@ Download the binary for your platform from the [Releases page](https://github.co
 |----------|----------------|
 | macOS Apple Silicon (M1/M2/M3) | `aba-sensor-v{VERSION}-aarch64-apple-darwin` |
 | macOS Intel | `aba-sensor-v{VERSION}-x86_64-apple-darwin` |
-| Windows x86_64 | `aba-sensor-v{VERSION}-x86_64-pc-windows-msvc.exe` |
+| Windows x86_64 | `aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe` |
 
 ---
 
@@ -72,7 +72,7 @@ Or: **System Settings → Privacy & Security → Allow Anyway**.
 
 ## Windows
 
-1. Download `aba-sensor-v{VERSION}-x86_64-pc-windows-msvc.exe` from the [Releases page](https://github.com/ExabeamLabs/aba-sensor-dist/releases).
+1. Download `aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe` from the [Releases page](https://github.com/ExabeamLabs/aba-sensor-dist/releases).
 2. Rename it to `aba-sensor.exe`.
 3. Move it to a directory on your `PATH` (e.g. `C:\Program Files\aba-sensor\`).
 
