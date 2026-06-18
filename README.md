@@ -5,8 +5,7 @@
 ```
 Claude Code ─┐
 Codex CLI ───├─→ aba-sensor ─→ Exabeam SecOps platform
-Gemini CLI ──┤
-OpenClaw ────┘
+Gemini CLI ──┘
 ```
 
 Captures session lifecycle, user prompts, tool invocations, token usage, and agent costs — all normalized to Exabeam CIM for SIEM threat detection and investigation.
