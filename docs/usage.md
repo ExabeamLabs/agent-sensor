@@ -24,11 +24,11 @@ Running `agent-sensor` without a subcommand is equivalent to `agent-sensor run`.
 | `--port-range <MIN-MAX>` | _(none)_ | Constrain all hook port binds to this range, e.g. `10000-11000`. Ephemeral ports outside the range exit with code 3; explicit ports outside the range exit with code 78. |
 | `--auto-config` | — | Install hooks for Claude Code, Codex CLI, and Gemini CLI, and write a default `config.toml` (never overwrites an existing one). |
 | `--dry-run` | — | Preview changes for `--auto-config` or `--enable-local-encryption` without modifying any files. |
-| `--enable-local-encryption` | — | Encrypt JSONL and SQLite files at rest. Requires `ABA_SENSOR_KEY` env var. |
+| `--enable-local-encryption` | — | Encrypt JSONL and SQLite files at rest. Requires `AGENT_SENSOR_KEY` env var. |
 | `--project-dir <PATH>` | `~/.agent-sensor` | Project directory for registry lookup (useful when running multiple instances). |
 
 > **Security note:** Never pass bearer tokens as CLI flags — they appear in `ps aux`.
-> Use `--token-file <path>` or the `ABA_SENSOR_WEBHOOK_TOKEN` env var instead.
+> Use `--token-file <path>` or the `AGENT_SENSOR_WEBHOOK_TOKEN` env var instead.
 
 ---
 
@@ -102,7 +102,7 @@ agent-sensor install-service --use-scheduled-task --hook-port 4982
 | `--use-scheduled-task` | Install as a Windows ONLOGON scheduled task instead of a Windows Service. Ignored on macOS. |
 | `--hook-port <PORT>` | Port to embed in the service manifest. |
 | `--port-range <MIN-MAX>` | Port range constraint to embed in the service manifest. |
-| `--project-dir <PATH>` | Sets `ABA_SENSOR_PROJECT_DIR` in the service environment. |
+| `--project-dir <PATH>` | Sets `AGENT_SENSOR_PROJECT_DIR` in the service environment. |
 
 ---
 
@@ -258,7 +258,7 @@ jq 'select(.event_type=="session_start") | {ts, session_id, framework}' ~/.agent
 
 | Variable | Description |
 |----------|-------------|
-| `RUST_LOG` | Log filter, e.g. `RUST_LOG=aba_sensor=debug` |
-| `ABA_SENSOR_KEY` | Encryption key for `--enable-local-encryption` |
-| `ABA_SENSOR_WEBHOOK_TOKEN` | Bearer token for webhook sink (alternative to `token_file` in config) |
-| `ABA_SENSOR_PROJECT_DIR` | Project directory (same as `--project-dir` flag) |
+| `RUST_LOG` | Log filter, e.g. `RUST_LOG=debug` |
+| `AGENT_SENSOR_KEY` | Encryption key for `--enable-local-encryption` |
+| `AGENT_SENSOR_WEBHOOK_TOKEN` | Bearer token for webhook sink (alternative to `token_file` in config) |
+| `AGENT_SENSOR_PROJECT_DIR` | Project directory (same as `--project-dir` flag) |

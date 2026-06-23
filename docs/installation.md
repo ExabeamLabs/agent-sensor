@@ -139,9 +139,9 @@ The file is never overwritten by subsequent `--auto-config` runs — edit it fre
 
 | Variable | Purpose |
 |----------|---------|
-| `RUST_LOG=aba_sensor=info` | Log level (`error`, `warn`, `info`, `debug`, `trace`) |
-| `ABA_SENSOR_KEY` | Encryption key (required when `--enable-local-encryption` is set) |
-| `ABA_SENSOR_WEBHOOK_TOKEN` | Bearer token for webhook sink (alternative to `token_file`) |
+| `RUST_LOG=info` | Log level (`error`, `warn`, `info`, `debug`, `trace`) |
+| `AGENT_SENSOR_KEY` | Encryption key (required when `--enable-local-encryption` is set) |
+| `AGENT_SENSOR_WEBHOOK_TOKEN` | Bearer token for webhook sink (alternative to `token_file`) |
 
 ---
 
