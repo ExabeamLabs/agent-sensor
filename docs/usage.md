@@ -1,16 +1,16 @@
-# Usage — aba-sensor
+# Usage — agent-sensor
 
-`aba-sensor` is an endpoint collector for Agent Behavior Analytics. It captures events from AI CLI tools (Claude Code, Codex, Gemini CLI, OpenClaw) and forwards them — normalized to Exabeam CIM — to a local JSONL audit log and/or a SIEM webhook.
+`agent-sensor` is an endpoint collector for Agent Behavior Analytics. It captures events from AI CLI tools (Claude Code, Codex, Gemini CLI, OpenClaw) and forwards them — normalized to Exabeam CIM — to a local JSONL audit log and/or a SIEM webhook.
 
 ---
 
 ## Synopsis
 
 ```
-aba-sensor [OPTIONS] [SUBCOMMAND]
+agent-sensor [OPTIONS] [SUBCOMMAND]
 ```
 
-Running `aba-sensor` without a subcommand is equivalent to `aba-sensor run`.
+Running `agent-sensor` without a subcommand is equivalent to `agent-sensor run`.
 
 ---
 
@@ -18,14 +18,14 @@ Running `aba-sensor` without a subcommand is equivalent to `aba-sensor run`.
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `-c, --config <PATH>` | `~/.aba-sensor/config.toml` | Path to config file |
+| `-c, --config <PATH>` | `~/.agent-sensor/config.toml` | Path to config file |
 | `--log-level <LEVEL>` | `info` | Log verbosity: `error`, `warn`, `info`, `debug`, `trace` |
 | `--hook-port <PORT>` | `0` (OS-assigned) | Port for the hook server. All three CLI paths (`/claude`, `/codex`, `/gemini`) are served on this port. Use `4982` for a stable well-known port. |
 | `--port-range <MIN-MAX>` | _(none)_ | Constrain all hook port binds to this range, e.g. `10000-11000`. Ephemeral ports outside the range exit with code 3; explicit ports outside the range exit with code 78. |
 | `--auto-config` | — | Install hooks for Claude Code, Codex CLI, and Gemini CLI, and write a default `config.toml` (never overwrites an existing one). |
 | `--dry-run` | — | Preview changes for `--auto-config` or `--enable-local-encryption` without modifying any files. |
 | `--enable-local-encryption` | — | Encrypt JSONL and SQLite files at rest. Requires `ABA_SENSOR_KEY` env var. |
-| `--project-dir <PATH>` | `~/.aba-sensor` | Project directory for registry lookup (useful when running multiple instances). |
+| `--project-dir <PATH>` | `~/.agent-sensor` | Project directory for registry lookup (useful when running multiple instances). |
 
 > **Security note:** Never pass bearer tokens as CLI flags — they appear in `ps aux`.
 > Use `--token-file <path>` or the `ABA_SENSOR_WEBHOOK_TOKEN` env var instead.
@@ -39,8 +39,8 @@ Running `aba-sensor` without a subcommand is equivalent to `aba-sensor run`.
 Start the forwarder. Listens for hooks from AI CLIs and tails Claude Code transcripts. Runs until terminated (SIGINT / SIGTERM on macOS; Ctrl+C on Windows). SIGHUP triggers a clean in-place restart.
 
 ```sh
-aba-sensor run
-aba-sensor --hook-port 4982 run
+agent-sensor run
+agent-sensor --hook-port 4982 run
 ```
 
 On startup, the bound port is printed in a machine-readable line:
@@ -56,7 +56,7 @@ hook-port: 4982 (paths: /claude /codex /gemini)
 Print the binary version and exit.
 
 ```sh
-aba-sensor version
+agent-sensor version
 ```
 
 ---
@@ -66,8 +66,8 @@ aba-sensor version
 Validate a config file. Exits `0` if valid, `78` if malformed or missing.
 
 ```sh
-aba-sensor check-config
-aba-sensor check-config /path/to/custom-config.toml
+agent-sensor check-config
+agent-sensor check-config /path/to/custom-config.toml
 ```
 
 ---
@@ -77,24 +77,24 @@ aba-sensor check-config /path/to/custom-config.toml
 Dump the current source read cursor state as JSON. Useful for debugging missed or duplicated events.
 
 ```sh
-aba-sensor inspect-cursors
+agent-sensor inspect-cursors
 ```
 
 ---
 
 ### `install-service`
 
-Install `aba-sensor` as a background service.
+Install `agent-sensor` as a background service.
 
 - **macOS**: launchd plist (requires `sudo`)
 - **Windows**: Windows Service (requires administrator) or scheduled task (no elevation)
 
 ```sh
 # macOS / Linux
-sudo aba-sensor install-service --hook-port 4982
+sudo agent-sensor install-service --hook-port 4982
 
 # Windows — scheduled task (no admin required)
-aba-sensor install-service --use-scheduled-task --hook-port 4982
+agent-sensor install-service --use-scheduled-task --hook-port 4982
 ```
 
 | Flag | Description |
@@ -111,8 +111,8 @@ aba-sensor install-service --use-scheduled-task --hook-port 4982
 Remove the background service installed by `install-service`.
 
 ```sh
-sudo aba-sensor uninstall-service   # macOS
-aba-sensor uninstall-service        # Windows
+sudo agent-sensor uninstall-service   # macOS
+agent-sensor uninstall-service        # Windows
 ```
 
 ---
@@ -122,7 +122,7 @@ aba-sensor uninstall-service        # Windows
 Print whether the background service is running, stopped, or not installed.
 
 ```sh
-aba-sensor status
+agent-sensor status
 ```
 
 ---
@@ -132,27 +132,27 @@ aba-sensor status
 Fetch and print current forwarder metrics in Prometheus text format. The forwarder must be running.
 
 ```sh
-aba-sensor metrics
+agent-sensor metrics
 
 # When multiple forwarders are running, scope to a specific project directory:
-aba-sensor metrics --project-dir /path/to/project
+agent-sensor metrics --project-dir /path/to/project
 ```
 
 ---
 
 ### `replay-dlq`
 
-Re-inject events from the dead-letter queue (`~/.aba-sensor/dlq.jsonl`) through their original sink. Use this to recover events that failed to deliver (e.g. webhook was temporarily unreachable).
+Re-inject events from the dead-letter queue (`~/.agent-sensor/dlq.jsonl`) through their original sink. Use this to recover events that failed to deliver (e.g. webhook was temporarily unreachable).
 
 ```sh
 # Replay all DLQ events
-aba-sensor replay-dlq
+agent-sensor replay-dlq
 
 # Preview without sending
-aba-sensor replay-dlq --dry-run
+agent-sensor replay-dlq --dry-run
 
 # Replay only events for a specific sink
-aba-sensor replay-dlq --sink my-webhook
+agent-sensor replay-dlq --sink my-webhook
 ```
 
 | Flag | Description |
@@ -167,7 +167,7 @@ aba-sensor replay-dlq --sink my-webhook
 Print available and all known source slugs as JSON. Used by the installer wizard.
 
 ```sh
-aba-sensor detect-sources
+agent-sensor detect-sources
 ```
 
 ---
@@ -177,9 +177,9 @@ aba-sensor detect-sources
 Check for or apply a pending update (requires `[update] enabled = true` in config).
 
 ```sh
-aba-sensor update            # Check and apply
-aba-sensor update --check    # Poll GitHub for a new release, update state file, exit (does not apply)
-aba-sensor update --rollback # Restore the previous binary from .prev
+agent-sensor update            # Check and apply
+agent-sensor update --check    # Poll GitHub for a new release, update state file, exit (does not apply)
+agent-sensor update --rollback # Restore the previous binary from .prev
 ```
 
 ---
@@ -190,34 +190,34 @@ aba-sensor update --rollback # Restore the previous binary from .prev
 
 ```sh
 # Install hooks for all supported CLIs and write default config
-aba-sensor --auto-config
+agent-sensor --auto-config
 
 # Start the forwarder on port 4982
-aba-sensor --hook-port 4982
+agent-sensor --hook-port 4982
 ```
 
 ### Preview hook installation without applying
 
 ```sh
-aba-sensor --auto-config --dry-run
+agent-sensor --auto-config --dry-run
 ```
 
 ### Forward events to Exabeam
 
-Edit `~/.aba-sensor/config.toml`:
+Edit `~/.agent-sensor/config.toml`:
 
 ```toml
 [[sinks]]
 kind = "webhook"
-url = "https://your-exabeam-collector.example.com/aba-sensor"
-token_file = "~/.aba-sensor/webhook.token"
+url = "https://your-exabeam-collector.example.com/agent-sensor"
+token_file = "~/.agent-sensor/webhook.token"
 ```
 
 Save the webhook bearer token:
 
 ```sh
-echo -n "YOUR_TOKEN" > ~/.aba-sensor/webhook.token
-chmod 600 ~/.aba-sensor/webhook.token
+echo -n "YOUR_TOKEN" > ~/.agent-sensor/webhook.token
+chmod 600 ~/.agent-sensor/webhook.token
 ```
 
 Restart the forwarder for the new config to take effect.
@@ -225,20 +225,20 @@ Restart the forwarder for the new config to take effect.
 ### Validate config before restarting
 
 ```sh
-aba-sensor check-config && sudo launchctl kickstart -k system/com.exabeam.aba-sensor
+agent-sensor check-config && sudo launchctl kickstart -k system/com.exabeam.agent-sensor
 ```
 
 ### Inspect captured events
 
 ```sh
 # Raw JSONL
-cat ~/.aba-sensor/events.jsonl
+cat ~/.agent-sensor/events.jsonl
 
 # Filter by source
-jq 'select(.framework=="claude_code")' ~/.aba-sensor/events.jsonl
+jq 'select(.framework=="claude_code")' ~/.agent-sensor/events.jsonl
 
 # Session starts only
-jq 'select(.event_type=="session_start") | {ts, session_id, framework}' ~/.aba-sensor/events.jsonl
+jq 'select(.event_type=="session_start") | {ts, session_id, framework}' ~/.agent-sensor/events.jsonl
 ```
 
 ---

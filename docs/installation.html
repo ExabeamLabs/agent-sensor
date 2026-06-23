@@ -419,12 +419,12 @@
         </ul>
 
         <h2>Download</h2>
-        <p>Download the binary for your platform from the <a href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</p>
+        <p>Download the binary for your platform from the <a href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</p>
         <table>
           <tr><th>Platform</th><th>Binary filename</th></tr>
-          <tr><td>macOS Apple Silicon (M1/M2/M3)</td><td><code>aba-sensor-v{VERSION}-aarch64-apple-darwin</code></td></tr>
-          <tr><td>macOS Intel</td><td><code>aba-sensor-v{VERSION}-x86_64-apple-darwin</code></td></tr>
-          <tr><td>Windows x86_64</td><td><code>aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe</code></td></tr>
+          <tr><td>macOS Apple Silicon (M1/M2/M3)</td><td><code>agent-sensor-v{VERSION}-aarch64-apple-darwin</code></td></tr>
+          <tr><td>macOS Intel</td><td><code>agent-sensor-v{VERSION}-x86_64-apple-darwin</code></td></tr>
+          <tr><td>Windows x86_64</td><td><code>agent-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe</code></td></tr>
         </table>
 
         <h2>macOS</h2>
@@ -432,12 +432,12 @@
         <p>Replace <code>VERSION</code> with the release you want (e.g. <code>1.0.4</code>).</p>
         <p><strong>Apple Silicon (M1/M2/M3):</strong></p>
         <pre><code>VERSION=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v${VERSION}/aba-sensor-v${VERSION}-aarch64-apple-darwin \
+curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-aarch64-apple-darwin \
   -o /usr/local/bin/agent-sensor
 chmod +x /usr/local/bin/agent-sensor</code></pre>
         <p><strong>Intel:</strong></p>
         <pre><code>VERSION=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v${VERSION}/aba-sensor-v${VERSION}-x86_64-apple-darwin \
+curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-x86_64-apple-darwin \
   -o /usr/local/bin/agent-sensor
 chmod +x /usr/local/bin/agent-sensor</code></pre>
 
@@ -457,7 +457,7 @@ agent-sensor --version</code></pre>
 
         <h2>Windows</h2>
         <ol>
-          <li>Download <code>aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe</code> from the <a href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</li>
+          <li>Download <code>agent-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe</code> from the <a href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</li>
           <li>Rename it to <code>agent-sensor.exe</code>.</li>
           <li>Move it to a directory on your <code>PATH</code> (e.g. <code>C:\\Program Files\\agent-sensor\\</code>).</li>
         </ol>
@@ -616,9 +616,9 @@ agent-sensor --hook-port 4992   # Or use a different port</code></pre>
 
       <div class="footer-col col-green">
         <h4>Project</h4>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist" target="_blank" rel="noopener">GitHub Repository</a>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">Releases</a>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist/issues" target="_blank" rel="noopener">Issues</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist" target="_blank" rel="noopener">GitHub Repository</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist/issues" target="_blank" rel="noopener">Issues</a>
       </div>
 
       <div class="footer-col col-blue">

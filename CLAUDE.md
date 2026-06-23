@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-`aba-sensor-dist` is a **public distribution repo** for the `aba-sensor` binary. It contains no source code. The application is built in the private repo at `https://github.com/Exabeam/aba-sensor`. This repo holds:
+`agent-sensor-dist` is a **public distribution repo** for the `agent-sensor` binary. It contains no source code. The application is built in the private repo at `https://github.com/Exabeam/agent-sensor`. This repo holds:
 
 - Pre-built binaries (local `bin/` staging only — never committed, attached as GitHub Release assets)
 - End-user documentation in `docs/`
@@ -34,9 +34,9 @@ Before running `make release`:
 Binaries must be placed in `bin/` with these exact names before releasing:
 
 ```
-bin/aba-sensor-v{VERSION}-x86_64-apple-darwin         # macOS Intel
-bin/aba-sensor-v{VERSION}-aarch64-apple-darwin        # macOS Apple Silicon
-bin/aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe  # Windows
+bin/agent-sensor-v{VERSION}-x86_64-apple-darwin         # macOS Intel
+bin/agent-sensor-v{VERSION}-aarch64-apple-darwin        # macOS Apple Silicon
+bin/agent-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe   # Windows
 ```
 
 `bin/` is gitignored — binaries live only as GitHub Release assets.

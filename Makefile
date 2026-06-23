@@ -6,9 +6,9 @@ VERSION ?= $(error VERSION is required. Usage: make release VERSION=1.2.3)
 TAG     := v$(VERSION)
 BIN_DIR := bin
 
-MACOS_INTEL := $(BIN_DIR)/aba-sensor-$(TAG)-x86_64-apple-darwin
-MACOS_ARM   := $(BIN_DIR)/aba-sensor-$(TAG)-aarch64-apple-darwin
-WINDOWS     := $(BIN_DIR)/aba-sensor-$(TAG)-x86_64-pc-windows-gnu.exe
+MACOS_INTEL := $(BIN_DIR)/agent-sensor-$(TAG)-x86_64-apple-darwin
+MACOS_ARM   := $(BIN_DIR)/agent-sensor-$(TAG)-aarch64-apple-darwin
+WINDOWS     := $(BIN_DIR)/agent-sensor-$(TAG)-x86_64-pc-windows-gnu.exe
 
 BINS := $(MACOS_INTEL) $(MACOS_ARM) $(WINDOWS)
 
@@ -18,7 +18,7 @@ BINS := $(MACOS_INTEL) $(MACOS_ARM) $(WINDOWS)
 
 help:
 	@echo ""
-	@echo "  aba-sensor-dist release workflow"
+	@echo "  agent-sensor-dist release workflow"
 	@echo ""
 	@echo "  Targets:"
 	@echo "    make verify      VERSION=x.y.z   Check that all three binaries exist in bin/"
@@ -59,7 +59,7 @@ gh-release:
 		--title "$(TAG)" \
 		--notes-file docs/changelog.md
 	@echo "==> Release $(TAG) published."
-	@echo "    https://github.com/ExabeamLabs/aba-sensor-dist/releases/tag/$(TAG)"
+	@echo "    https://github.com/ExabeamLabs/agent-sensor-dist/releases/tag/$(TAG)"
 
 release: verify tag gh-release
 	@echo ""

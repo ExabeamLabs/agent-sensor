@@ -418,7 +418,7 @@
           <h3>macOS — Apple Silicon</h3>
           <p>aarch64-apple-darwin · M1 / M2 / M3</p>
           <div class="platform-meta"><b>OS:</b> 11.0 (Big Sur) or later</div>
-          <a class="dl-btn" href="https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v1.0.4/aba-sensor-v1.0.4-aarch64-apple-darwin" download>
+          <a class="dl-btn" href="https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v1.0.4/agent-sensor-v1.0.4-aarch64-apple-darwin" download>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download v1.0.4
           </a>
@@ -428,7 +428,7 @@
           <h3>macOS — Intel</h3>
           <p>x86_64-apple-darwin</p>
           <div class="platform-meta"><b>OS:</b> 11.0 (Big Sur) or later</div>
-          <a class="dl-btn" href="https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v1.0.4/aba-sensor-v1.0.4-x86_64-apple-darwin" download>
+          <a class="dl-btn" href="https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v1.0.4/agent-sensor-v1.0.4-x86_64-apple-darwin" download>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download v1.0.4
           </a>
@@ -438,13 +438,13 @@
           <h3>Windows</h3>
           <p>x86_64-pc-windows-gnu</p>
           <div class="platform-meta"><b>OS:</b> Windows 10 or 11 (x86_64)</div>
-          <a class="dl-btn" href="https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v1.0.4/aba-sensor-v1.0.4-x86_64-pc-windows-gnu.exe" download>
+          <a class="dl-btn" href="https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v1.0.4/agent-sensor-v1.0.4-x86_64-pc-windows-gnu.exe" download>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download v1.0.4
           </a>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--text-mute);margin-top:16px;">Looking for a different version? See all builds on the <a href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</p>
+      <p style="font-size:13px;color:var(--text-mute);margin-top:16px;">Looking for a different version? See all builds on the <a href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">Releases page</a>.</p>
     </div>
   </section>
 
@@ -468,7 +468,7 @@
           <div class="codehead"><span>Terminal</span><button class="copy" data-copy="cmd-mac-arm">Copy</button></div>
           <pre id="cmd-mac-arm"><span class="c1"># Replace VERSION with the release you want, e.g. 1.0.4</span>
 <span class="c2">VERSION</span>=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v${VERSION}/aba-sensor-v${VERSION}-aarch64-apple-darwin \
+curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-aarch64-apple-darwin \
   -o /usr/local/bin/agent-sensor
 chmod +x /usr/local/bin/agent-sensor</pre>
         </div>
@@ -479,7 +479,7 @@ chmod +x /usr/local/bin/agent-sensor</pre>
           <div class="codehead"><span>Terminal</span><button class="copy" data-copy="cmd-mac-intel">Copy</button></div>
           <pre id="cmd-mac-intel"><span class="c1"># Replace VERSION with the release you want, e.g. 1.0.4</span>
 <span class="c2">VERSION</span>=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/aba-sensor-dist/releases/download/v${VERSION}/aba-sensor-v${VERSION}-x86_64-apple-darwin \
+curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-x86_64-apple-darwin \
   -o /usr/local/bin/agent-sensor
 chmod +x /usr/local/bin/agent-sensor</pre>
         </div>
@@ -488,7 +488,7 @@ chmod +x /usr/local/bin/agent-sensor</pre>
       <div class="tabpanel" id="panel-win">
         <div class="codeblock">
           <div class="codehead"><span>PowerShell</span><button class="copy" data-copy="cmd-win">Copy</button></div>
-          <pre id="cmd-win"><span class="c1"># 1. Download aba-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe from the Releases page
+          <pre id="cmd-win"><span class="c1"># 1. Download agent-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe from the Releases page
 # 2. Rename it to agent-sensor.exe
 # 3. Move it to a directory on your PATH, e.g. C:\Program Files\agent-sensor\</span>
 
@@ -655,7 +655,7 @@ max_rotated_files = 5
           <p>Track what's new in each version of Exabeam Agent Sensor.</p>
           <span class="arrow">Read the docs →</span>
         </a>
-        <a class="doc-card" href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">
+        <a class="doc-card" href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">
           <div class="num">04 · Releases</div>
           <h3>Download binaries</h3>
           <p>Pre-built macOS and Windows binaries — no build toolchain required to install.</p>
@@ -768,9 +768,9 @@ agent-sensor --hook-port 4992</pre>
 
       <div class="footer-col col-green">
         <h4>Project</h4>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist" target="_blank" rel="noopener">GitHub Repository</a>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist/releases" target="_blank" rel="noopener">Releases</a>
-        <a href="https://github.com/ExabeamLabs/aba-sensor-dist/issues" target="_blank" rel="noopener">Issues</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist" target="_blank" rel="noopener">GitHub Repository</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/ExabeamLabs/agent-sensor-dist/issues" target="_blank" rel="noopener">Issues</a>
       </div>
 
       <div class="footer-col col-blue">
