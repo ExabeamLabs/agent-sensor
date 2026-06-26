@@ -2,10 +2,12 @@
 
 ## Prerequisites
 
-- **macOS**: 11.0 (Big Sur) or later
-- **Windows**: Windows 10 or 11 (x86_64)
+- **macOS**: 11.0 (Big Sur) or later (x86_64 and Apple Silicon)
+- **Windows**: Windows 10 (1803+) or Windows 11 (x86_64)
 - **Disk**: ~100 MB
 - **Network**: Port 4982 (hook server) must be available locally
+- **Runtime Dependency**:
+  - **curl**: present by default on macOS and Windows 10 (1803+) / Windows 11. Verify: `curl --version` (Windows: `curl.exe --version`).
 
 ---
 
@@ -21,9 +23,7 @@ Download the binary for your platform from the [Releases page](https://github.co
 
 ---
 
-## macOS
-
-### Install via curl (recommended)
+### macOS
 
 Replace `VERSION` with the release you want (e.g. `1.0.4`).
 
@@ -31,21 +31,19 @@ Replace `VERSION` with the release you want (e.g. `1.0.4`).
 
 ```sh
 VERSION=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-aarch64-apple-darwin \
+sudo curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-aarch64-apple-darwin \
   -o /usr/local/bin/agent-sensor
-chmod +x /usr/local/bin/agent-sensor
+sudo chmod +x /usr/local/bin/agent-sensor
 ```
 
 **Intel:**
 
 ```sh
 VERSION=1.0.4
-curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-x86_64-apple-darwin \
+sudo curl -fsSL https://github.com/ExabeamLabs/agent-sensor-dist/releases/download/v${VERSION}/agent-sensor-v${VERSION}-x86_64-apple-darwin \
   -o /usr/local/bin/agent-sensor
-chmod +x /usr/local/bin/agent-sensor
+sudo chmod +x /usr/local/bin/agent-sensor
 ```
-
-### Verify the download
 
 Always confirm the download is a real binary and not a saved error page:
 
@@ -58,7 +56,7 @@ file /usr/local/bin/agent-sensor
 agent-sensor --version
 ```
 
-### Gatekeeper (macOS security)
+#### Gatekeeper (macOS security)
 
 On first run macOS may block the binary with "cannot be opened because the developer cannot be verified." To allow it:
 
@@ -70,7 +68,7 @@ Or: **System Settings → Privacy & Security → Allow Anyway**.
 
 ---
 
-## Windows
+### Windows
 
 1. Download `agent-sensor-v{VERSION}-x86_64-pc-windows-gnu.exe` from the [Releases page](https://github.com/ExabeamLabs/agent-sensor-dist/releases).
 2. Rename it to `agent-sensor.exe`.
@@ -82,38 +80,18 @@ Verify in PowerShell:
 agent-sensor --version
 ```
 
-### Windows service (no admin required)
-
-```powershell
-agent-sensor install-service --use-scheduled-task --hook-port 4982
-```
-
-This registers an ONLOGON scheduled task — no administrator privileges needed.
-
----
-
-## Quick Start
-
-```sh
-# 1. Install hooks for Claude Code, Codex CLI, and Gemini CLI + write default config
-agent-sensor --auto-config
-
-# 2. Start the forwarder (listens on port 4982 by default)
-agent-sensor --hook-port 4982
-
-# 3. After a Claude Code session, inspect the JSONL audit log
-cat ~/.agent-sensor/events.jsonl
-```
-
-Preview what `--auto-config` would change before applying:
-
-```sh
-agent-sensor --auto-config --dry-run
-```
-
 ---
 
 ## Configuration
+
+```sh
+# Preview every change without applying
+agent-sensor --auto-config --dry-run
+# Apply
+agent-sensor --auto-config
+```
+
+This installs hooks for Claude Code, Codex CLI, and Gemini CLI at `~/.claude`, `~/.codex`, and `~/.gemini`. Restart each agent to pick up the new hook configurations.
 
 The default config file is `~/.agent-sensor/config.toml`. It is created automatically by `--auto-config` if it does not already exist. Example:
 
@@ -133,15 +111,7 @@ max_rotated_files = 5
 # token_file = "~/.agent-sensor/webhook.token"
 ```
 
-The file is never overwritten by subsequent `--auto-config` runs — edit it freely.
-
-**Environment variables:**
-
-| Variable | Purpose |
-|----------|---------|
-| `RUST_LOG=info` | Log level (`error`, `warn`, `info`, `debug`, `trace`) |
-| `AGENT_SENSOR_KEY` | Encryption key (required when `--enable-local-encryption` is set) |
-| `AGENT_SENSOR_WEBHOOK_TOKEN` | Bearer token for webhook sink (alternative to `token_file`) |
+To forward telemetry to a SIEM, add a `webhook` sink with the endpoint URL and token file path.
 
 ---
 
@@ -150,16 +120,13 @@ The file is never overwritten by subsequent `--auto-config` runs — edit it fre
 ### macOS (launchd)
 
 ```sh
-sudo agent-sensor install-service --hook-port 4982
-
-# Verify
-sudo launchctl list | grep agent-sensor
+agent-sensor install-service
 ```
 
-### Windows (scheduled task — no admin)
+### Windows (scheduled task — no admin required)
 
 ```powershell
-agent-sensor install-service --use-scheduled-task --hook-port 4982
+agent-sensor install-service --use-scheduled-task
 ```
 
 ---
@@ -172,26 +139,33 @@ agent-sensor --version
 
 # Check service status
 agent-sensor status
+# Service com.agent-sensor.forwarder: running
+# Current version: 1.0.4
 
 # Send a test event to the hook server
 curl -X POST http://127.0.0.1:4982/claude \
   -H "Content-Type: application/json" \
   -d '{"hook":"SessionStart","sessionId":"test"}'
 
-# Count events captured
-wc -l ~/.agent-sensor/events.jsonl
+# Confirm the event was received (counter should be non-zero)
+agent-sensor metrics | grep agent_sensor_hook_events_received_total
 ```
 
 ---
 
 ## Upgrading
 
-Repeat the download and install steps with the new version. The new binary replaces the old one at the same path. If running as a service, restart it after replacing the binary:
+Repeat the download and install steps with the new version. The new binary replaces the old one at the same path. If the service is running, reinstall it so the service manifest points to the new binary:
 
 ```sh
 # macOS
-sudo launchctl stop com.exabeam.agent-sensor
-sudo launchctl start com.exabeam.agent-sensor
+agent-sensor uninstall-service && agent-sensor install-service
+```
+
+```powershell
+# Windows
+agent-sensor uninstall-service
+agent-sensor install-service --use-scheduled-task
 ```
 
 ---
@@ -201,37 +175,35 @@ sudo launchctl start com.exabeam.agent-sensor
 ### macOS
 
 ```sh
-sudo agent-sensor uninstall-service        # Remove launchd service (if installed)
-sudo rm /usr/local/bin/agent-sensor        # Remove binary
-rm -rf ~/.agent-sensor/                    # Remove config and logs (optional)
+agent-sensor uninstall-service   # Remove launchd service (if installed)
+sudo rm /usr/local/bin/agent-sensor   # Remove binary
+rm -rf ~/.agent-sensor/               # Remove config and logs (optional)
 ```
 
 To also remove the CLI hook registrations:
 
 ```sh
-rm -f ~/.claude/hooks/claude-watch-hook.sh
-rm -f ~/.codex/hooks/codex-hook.sh
-rm -f ~/.gemini/hooks/gemini-hook.sh
+rm -rf ~/.claude ~/.codex ~/.gemini
 ```
 
 ### Windows
 
 ```powershell
-agent-sensor uninstall-service             # Remove scheduled task (if installed)
-# Then delete agent-sensor.exe from your PATH directory
+agent-sensor uninstall-service   # Remove scheduled task (if installed)
+# Then delete agent-sensor.exe from its directory on your PATH
 ```
 
 ---
 
 ## Troubleshooting
 
-### `Not: command not found` when running the binary
+### Binary fails to run (`exec format error` or similar)
 
-The file is an HTML/text error page, not a real binary (typically from a failed download).
+This usually means the downloaded file is an HTML error page rather than a real binary.
 
 ```sh
 file ./agent-sensor
-# Real binary:    "Mach-O 64-bit executable"
+# Real binary:      "Mach-O 64-bit executable"
 # Saved error page: "ASCII text" or "HTML document text"
 ```
 
@@ -244,14 +216,14 @@ Error: Address already in use (os error 48)
 ```
 
 ```sh
-lsof -i :4982          # Find what is using the port
-agent-sensor --hook-port 4992   # Or use a different port
+lsof -i :4982                       # Find what is using the port
+agent-sensor --hook-port 4992       # Or start on a different port
 ```
 
 ### No events appearing
 
-1. Verify the forwarder is running: `lsof -i :4982`
-2. Check hooks are installed: `cat ~/.claude/settings.json | grep claude-watch-hook`
+1. Verify the agent-sensor is running: `lsof -i :4982`
+2. Check hooks are installed: `grep hook-server ~/.claude/settings.json`
 3. Send a test event manually (see [Verify Installation](#verify-installation) above)
 
 ### macOS Gatekeeper blocks the binary
